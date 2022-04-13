@@ -45,7 +45,7 @@ namespace WellspringCS
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FontRange
 		{
-			uint FontSize;
+			float FontSize;
 			uint FirstCodepoint;
 			uint NumChars;
 			byte OversampleH;

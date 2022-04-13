@@ -45,7 +45,6 @@ namespace WellspringCS
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FontRange
 		{
-			float FontSize;
 			uint FirstCodepoint;
 			uint NumChars;
 			byte OversampleH;
@@ -75,10 +74,40 @@ namespace WellspringCS
 			byte A;
 		}
 
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Rectangle
+		{
+			float X;
+			float Y;
+			float W;
+			float H;
+		}
+
+		public enum HorizontalAlignment
+		{
+			Left,
+			Center,
+			Right
+		}
+
+		public enum VerticalAlignment
+		{
+			Baseline,
+			Top,
+			Middle,
+			Bottom
+		}
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Wellspring_CreateFont(
+			IntPtr fontBytes,
+			uint fontBytesLength
+		);
+
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Wellspring_CreatePacker(
-			IntPtr fontBytes,
-			uint fontBytesLength,
+			IntPtr Font,
+			float fontSize,
 			uint width,
 			uint height,
 			uint strideInBytes,
@@ -107,12 +136,26 @@ namespace WellspringCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern byte Wellspring_TextBounds(
+			IntPtr textBatch,
+			float x,
+			float y,
+			HorizontalAlignment horizontalAlignment,
+			VerticalAlignment verticalAlignment,
+			IntPtr strBytes, /* UTF-8 bytes */
+			uint strLengthInBytes,
+			out Rectangle rectangle
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte Wellspring_Draw(
 			IntPtr textBatch,
 			float x,
 			float y,
 			float depth,
 			in Color color,
+			HorizontalAlignment horizontalAlignment,
+			VerticalAlignment verticalAlignment,
 			IntPtr strBytes, /* UTF-8 bytes */
 			uint strLengthInBytes
 		);
@@ -134,6 +177,11 @@ namespace WellspringCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wellspring_DestroyPacker(
 			IntPtr packer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Wellspring_DestroyFont(
+			IntPtr font
 		);
 	}
 }

@@ -93,9 +93,8 @@ namespace WellspringCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_GetPixels(
-			IntPtr packer,
-			IntPtr pData /* byte array */
+		public static extern IntPtr Wellspring_GetPixelDataPointer(
+			IntPtr packer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -103,13 +102,13 @@ namespace WellspringCS
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wellspring_StartTextBatch(
+			IntPtr textBatch,
 			IntPtr packer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte Wellspring_Draw(
 			IntPtr textBatch,
-			IntPtr packer,
 			float x,
 			float y,
 			float depth,
@@ -119,17 +118,12 @@ namespace WellspringCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_GetBufferLengths(
+		public static extern void Wellspring_GetBufferData(
 			IntPtr textBatch,
-			out uint vertexCount,
-			out uint indexCount
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_GetBuffers(
-			IntPtr textBatch,
-			IntPtr vertexBuffer, /* Vertex array */
-			IntPtr indexBuffer /* uint array */
+			out IntPtr vertexDataPointer,
+			out uint vertexDataLengthInBytes,
+			out IntPtr indexDataPointer,
+			out uint indexDataLengthInBytes
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

@@ -45,10 +45,10 @@ namespace WellspringCS
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FontRange
 		{
-			uint FirstCodepoint;
-			uint NumChars;
-			byte OversampleH;
-			byte OversampleV;
+			public uint FirstCodepoint;
+			public uint NumChars;
+			public byte OversampleH;
+			public byte OversampleV;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -63,24 +63,24 @@ namespace WellspringCS
 		[StructLayout(LayoutKind.Sequential)]
 		public struct Vertex
 		{
-			float X;
-			float Y;
-			float Z;
-			float U;
-			float V;
-			byte R;
-			byte G;
-			byte B;
-			byte A;
+			public float X;
+			public float Y;
+			public float Z;
+			public float U;
+			public float V;
+			public byte R;
+			public byte G;
+			public byte B;
+			public byte A;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct Rectangle
 		{
-			float X;
-			float Y;
-			float W;
-			float H;
+			public float X;
+			public float Y;
+			public float W;
+			public float H;
 		}
 
 		public enum HorizontalAlignment

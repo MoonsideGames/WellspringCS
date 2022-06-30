@@ -36,7 +36,7 @@ namespace WellspringCS
 		// Version
 
 		public const uint WELLSPRING_MAJOR_VERSION = 0;
-		public const uint WELLSPRING_MINOR_VERSION = 1;
+		public const uint WELLSPRING_MINOR_VERSION = 2;
 		public const uint WELLSPRING_PATCH_VERSION = 0;
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -163,6 +163,7 @@ namespace WellspringCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wellspring_GetBufferData(
 			IntPtr textBatch,
+			out uint vertexCount,
 			out IntPtr vertexDataPointer,
 			out uint vertexDataLengthInBytes,
 			out IntPtr indexDataPointer,

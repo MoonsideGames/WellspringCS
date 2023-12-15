@@ -101,29 +101,11 @@ namespace WellspringCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr Wellspring_CreateFont(
 			IntPtr fontBytes,
-			uint fontBytesLength
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Wellspring_CreatePacker(
-			IntPtr Font,
-			float fontSize,
-			uint width,
-			uint height,
-			uint strideInBytes,
-			uint padding
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint Wellspring_PackFontRanges(
-			IntPtr packer,
-			IntPtr ranges, /* FontRange array */
-			uint numRanges
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Wellspring_GetPixelDataPointer(
-			IntPtr packer
+			uint fontBytesLength,
+			IntPtr atlasJsonBytes,
+			uint atlasJsonBytesLength,
+			out float pixelsPerEm,
+			out float distanceRange
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -132,14 +114,13 @@ namespace WellspringCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wellspring_StartTextBatch(
 			IntPtr textBatch,
-			IntPtr packer
+			IntPtr font
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte Wellspring_TextBounds(
-			IntPtr packer,
-			float x,
-			float y,
+			IntPtr font,
+			int pixelSize,
 			HorizontalAlignment horizontalAlignment,
 			VerticalAlignment verticalAlignment,
 			IntPtr strBytes, /* UTF-8 bytes */
@@ -148,11 +129,9 @@ namespace WellspringCS
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern byte Wellspring_Draw(
+		public static extern byte Wellspring_AddToTextBatch(
 			IntPtr textBatch,
-			float x,
-			float y,
-			float depth,
+			int pixelSize,
 			in Color color,
 			HorizontalAlignment horizontalAlignment,
 			VerticalAlignment verticalAlignment,
@@ -173,11 +152,6 @@ namespace WellspringCS
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Wellspring_DestroyTextBatch(
 			IntPtr textBatch
-		);
-
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_DestroyPacker(
-			IntPtr packer
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]

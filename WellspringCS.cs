@@ -25,11 +25,12 @@
  */
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace WellspringCS
 {
-	public static class Wellspring
+	public static partial class Wellspring
 	{
 		private const string nativeLibName = "Wellspring";
 
@@ -37,10 +38,11 @@ namespace WellspringCS
 
 		public const uint WELLSPRING_MAJOR_VERSION = 1;
 		public const uint WELLSPRING_MINOR_VERSION = 0;
-		public const uint WELLSPRING_PATCH_VERSION = 0;
+		public const uint WELLSPRING_PATCH_VERSION = 1;
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern uint Wellspring_LinkedVersion();
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial uint Wellspring_LinkedVersion();
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FontRange
@@ -98,8 +100,9 @@ namespace WellspringCS
 			Bottom
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Wellspring_CreateFont(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial IntPtr Wellspring_CreateFont(
 			IntPtr fontBytes,
 			uint fontBytesLength,
 			IntPtr atlasJsonBytes,
@@ -108,17 +111,20 @@ namespace WellspringCS
 			out float distanceRange
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr Wellspring_CreateTextBatch();
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial IntPtr Wellspring_CreateTextBatch();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_StartTextBatch(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial void Wellspring_StartTextBatch(
 			IntPtr textBatch,
 			IntPtr font
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern byte Wellspring_TextBounds(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial byte Wellspring_TextBounds(
 			IntPtr font,
 			int pixelSize,
 			HorizontalAlignment horizontalAlignment,
@@ -128,8 +134,9 @@ namespace WellspringCS
 			out Rectangle rectangle
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern byte Wellspring_AddToTextBatch(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial byte Wellspring_AddToTextBatch(
 			IntPtr textBatch,
 			int pixelSize,
 			in Color color,
@@ -139,8 +146,9 @@ namespace WellspringCS
 			uint strLengthInBytes
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_GetBufferData(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial void Wellspring_GetBufferData(
 			IntPtr textBatch,
 			out uint vertexCount,
 			out IntPtr vertexDataPointer,
@@ -149,13 +157,15 @@ namespace WellspringCS
 			out uint indexDataLengthInBytes
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_DestroyTextBatch(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial void Wellspring_DestroyTextBatch(
 			IntPtr textBatch
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Wellspring_DestroyFont(
+		[LibraryImport(nativeLibName)]
+		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+		public static partial void Wellspring_DestroyFont(
 			IntPtr font
 		);
 	}

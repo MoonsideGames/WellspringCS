@@ -54,26 +54,13 @@ namespace WellspringCS
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct Color
-		{
-			public byte R;
-			public byte G;
-			public byte B;
-			public byte A;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct Vertex
 		{
 			public float X;
 			public float Y;
-			public float Z;
 			public float U;
 			public float V;
-			public byte R;
-			public byte G;
-			public byte B;
-			public byte A;
+			public uint ChunkSize;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -118,8 +105,7 @@ namespace WellspringCS
 		[LibraryImport(nativeLibName)]
 		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
 		public static partial void Wellspring_StartTextBatch(
-			IntPtr textBatch,
-			IntPtr font
+			IntPtr textBatch
 		);
 
 		[LibraryImport(nativeLibName)]
@@ -136,10 +122,10 @@ namespace WellspringCS
 
 		[LibraryImport(nativeLibName)]
 		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-		public static partial byte Wellspring_AddToTextBatch(
+		public static partial byte Wellspring_AddChunkToTextBatch(
 			IntPtr textBatch,
+			IntPtr font,
 			int pixelSize,
-			in Color color,
 			HorizontalAlignment horizontalAlignment,
 			VerticalAlignment verticalAlignment,
 			IntPtr strBytes, /* UTF-8 bytes */
@@ -151,11 +137,21 @@ namespace WellspringCS
 		public static partial void Wellspring_GetBufferData(
 			IntPtr textBatch,
 			out uint vertexCount,
-			out IntPtr vertexDataPointer,
-			out uint vertexDataLengthInBytes,
-			out IntPtr indexDataPointer,
-			out uint indexDataLengthInBytes
+			out IntPtr vertexDataPointer
 		);
+
+		public static unsafe void Wellspring_GetBufferData(
+			IntPtr textBatch,
+			out Span<Vertex> vertices
+		) {
+			Wellspring_GetBufferData(
+				textBatch,
+				out var vertexCount,
+				out var vertexDataPointer
+			);
+
+			vertices = new Span<Vertex>((void*) vertexDataPointer, (int) vertexCount);
+		}
 
 		[LibraryImport(nativeLibName)]
 		[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
